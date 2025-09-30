@@ -1,0 +1,68 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36408.4
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Apothicary", "Apothicary\Apothicary.vcxproj", "{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tonic", "Tonic\Tonic.vcxproj", "{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Argon", "Argon\Argon.vcxproj", "{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xenon", "Xenon\Xenon.vcxproj", "{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GLFW", "GLFW\GLFW.vcxproj", "{5DC5F94A-B46E-489D-A290-A40B8435169C}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glad", "glad\glad.vcxproj", "{843903B7-464D-4684-958C-CE38815CF4EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Dist|x64 = Dist|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}.Debug|x64.ActiveCfg = Debug|x64
+		{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}.Debug|x64.Build.0 = Debug|x64
+		{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}.Dist|x64.ActiveCfg = Dist|x64
+		{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}.Dist|x64.Build.0 = Dist|x64
+		{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}.Release|x64.ActiveCfg = Release|x64
+		{7C8F5DB6-7C90-4327-90E7-BE09420B5F32}.Release|x64.Build.0 = Release|x64
+		{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}.Debug|x64.ActiveCfg = Debug|x64
+		{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}.Debug|x64.Build.0 = Debug|x64
+		{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}.Dist|x64.ActiveCfg = Release|x64
+		{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}.Dist|x64.Build.0 = Release|x64
+		{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}.Release|x64.ActiveCfg = Release|x64
+		{EA94CB73-DFEA-4F75-8DEF-A9210B30DD3F}.Release|x64.Build.0 = Release|x64
+		{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}.Debug|x64.ActiveCfg = Debug|x64
+		{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}.Debug|x64.Build.0 = Debug|x64
+		{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}.Dist|x64.ActiveCfg = Release|x64
+		{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}.Dist|x64.Build.0 = Release|x64
+		{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}.Release|x64.ActiveCfg = Release|x64
+		{833E4F49-D2DD-4B99-9B0E-D524103D6EAA}.Release|x64.Build.0 = Release|x64
+		{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}.Debug|x64.ActiveCfg = Debug|x64
+		{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}.Debug|x64.Build.0 = Debug|x64
+		{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}.Dist|x64.ActiveCfg = Release|x64
+		{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}.Dist|x64.Build.0 = Release|x64
+		{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}.Release|x64.ActiveCfg = Release|x64
+		{B585E76D-FD58-40A3-A4DB-8B58702B8AF1}.Release|x64.Build.0 = Release|x64
+		{5DC5F94A-B46E-489D-A290-A40B8435169C}.Debug|x64.ActiveCfg = Debug|x64
+		{5DC5F94A-B46E-489D-A290-A40B8435169C}.Debug|x64.Build.0 = Debug|x64
+		{5DC5F94A-B46E-489D-A290-A40B8435169C}.Dist|x64.ActiveCfg = Release|x64
+		{5DC5F94A-B46E-489D-A290-A40B8435169C}.Dist|x64.Build.0 = Release|x64
+		{5DC5F94A-B46E-489D-A290-A40B8435169C}.Release|x64.ActiveCfg = Release|x64
+		{5DC5F94A-B46E-489D-A290-A40B8435169C}.Release|x64.Build.0 = Release|x64
+		{843903B7-464D-4684-958C-CE38815CF4EB}.Debug|x64.ActiveCfg = Debug|x64
+		{843903B7-464D-4684-958C-CE38815CF4EB}.Debug|x64.Build.0 = Debug|x64
+		{843903B7-464D-4684-958C-CE38815CF4EB}.Dist|x64.ActiveCfg = Release|x64
+		{843903B7-464D-4684-958C-CE38815CF4EB}.Dist|x64.Build.0 = Release|x64
+		{843903B7-464D-4684-958C-CE38815CF4EB}.Release|x64.ActiveCfg = Release|x64
+		{843903B7-464D-4684-958C-CE38815CF4EB}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B9A686EA-CEBE-4F8C-8229-C55CDE802AF0}
+	EndGlobalSection
+EndGlobal

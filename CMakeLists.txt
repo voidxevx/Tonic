@@ -1,0 +1,88 @@
+cmake_minimum_required(VERSION 4.0)
+project(Tonic)
+
+set(CMAKE_CXX_STANDARD 14)
+
+include_directories(Apothicary/src)
+include_directories(Apothicary/src/Apothic)
+include_directories(Apothicary/src/Apothic/Events)
+include_directories(Apothicary/src/Apothic/Rendering)
+include_directories(Apothicary/src/Apothic/Rendering/Platforms/OpenGL)
+include_directories(Argon/src)
+include_directories(Argon/src/Argon/DataTypes)
+include_directories(Argon/src/Argon/Operations)
+include_directories(Argon/src/Argon/Operations/linear)
+include_directories(Argon/src/Argon/Operations/simd)
+include_directories(Argon/src/Argon/util)
+include_directories(glad/include)
+include_directories(glad/include/glad)
+include_directories(glad/include/KHR)
+include_directories(GLFW)
+include_directories(GLFW/include)
+include_directories(GLFW/include/GLFW)
+include_directories(Lua)
+include_directories(Lua/include)
+include_directories(Xenon)
+include_directories(Xenon/src)
+include_directories(Xenon/src/Xenon)
+include_directories(Xenon/src/Xenon/Lua)
+
+add_executable(Tonic
+        Apothicary/src/Apothic/Events/ApplicationEvent.h
+        Apothicary/src/Apothic/Events/Event.h
+        Apothicary/src/Apothic/Events/KeyEvent.h
+        Apothicary/src/Apothic/Events/MouseEvent.h
+        Apothicary/src/Apothic/Events/WindowEvent.h
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_DataTypes.h
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_Renderer.cpp
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_Renderer.h
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_Shader.cpp
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_Shader.h
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_VertexCollection.cpp
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_VertexCollection.h
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_Window.cpp
+        Apothicary/src/Apothic/Rendering/Platforms/OpenGL/OpenGL_Window.h
+        Apothicary/src/Apothic/Rendering/Camera.cpp
+        Apothicary/src/Apothic/Rendering/Camera.h
+        Apothicary/src/Apothic/Rendering/DataTypes.h
+        Apothicary/src/Apothic/Rendering/Layer.cpp
+        Apothicary/src/Apothic/Rendering/Layer.h
+        Apothicary/src/Apothic/Rendering/Material.cpp
+        Apothicary/src/Apothic/Rendering/Material.h
+        Apothicary/src/Apothic/Rendering/Renderer.h
+        Apothicary/src/Apothic/Rendering/Shader.h
+        Apothicary/src/Apothic/Rendering/VertexCollection.h
+        Apothicary/src/Apothic/Rendering/Vertexlayout.h
+        Apothicary/src/Apothic/Rendering/Window.h
+        Apothicary/src/Apothic/Application.cpp
+        Apothicary/src/Apothic/Application.h
+        Apothicary/src/Apothic/Core.h
+        Apothicary/src/Apothic/EntryPoint.cpp
+        Apothicary/src/Apothic.h
+        Argon/src/Argon/DataTypes/Matrix.h
+        Argon/src/Argon/DataTypes/Vector.h
+        Argon/src/Argon/Operations/linear/Matrix_Operations.h
+        Argon/src/Argon/Operations/linear/Vector_Operations.h
+        Argon/src/Argon/Operations/simd/ArgonSIMD.h
+        Argon/src/Argon/Operations/simd/Matrix_Operations_SIMD.h
+        Argon/src/Argon/Operations/simd/Vector_Operations_SIMD.h
+        Argon/src/Argon/Operations/Overloads.h
+        Argon/src/Argon/Transforms/MatrixTransforms.cpp
+        Argon/src/Argon/util/types.h
+        Argon/src/Argon.h
+        glad/include/glad/glad.h
+        glad/include/KHR/khrplatform.h
+        glad/src/glad.c
+        GLFW/include/GLFW/glfw3.h
+        GLFW/include/GLFW/glfw3native.h
+        Lua/include/lauxlib.h
+        Lua/include/lua.h
+        Lua/include/lua.hpp
+        Lua/include/luaconf.h
+        Lua/include/lualib.h
+        Tonic/src/Tonic/main.cpp
+        Xenon/src/Xenon/Lua/LuaVM.h
+        Xenon/src/Xenon/ComponentPool.h
+        Xenon/src/Xenon/ECS.h
+        Xenon/src/Xenon/Types.h
+        Xenon/src/Xenon.h)
