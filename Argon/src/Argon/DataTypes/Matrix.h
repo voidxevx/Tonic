@@ -44,7 +44,7 @@ namespace argon
 		ArgonVector<_T, _cols> GetRow(unsigned int row) const
 		{
 			float* out = (float*)malloc(_cols * sizeof(_T)); /* memory is freed by vector class */
-			for (unsigned int i{}; i < _cols; ++i)
+			for (unsigned int i{}; i < _cols; ++i) 
 				out[i] = m_Values[(m_Cols * row) + i];
 			return out;
 		}

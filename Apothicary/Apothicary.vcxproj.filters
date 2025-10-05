@@ -110,5 +110,8 @@
     <ClInclude Include="src\Apothic\Rendering\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Apothic\Rendering\RenderSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

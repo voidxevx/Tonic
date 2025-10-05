@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>H:\My Drive\Tonic engine\Tonic\bin\Argon\x64-Debug\Argon</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>H:\My Drive\Tonic engine\Tonic\bin\Xenon\x64-Debug\Xenon</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>H:\My Drive\Tonic engine\Tonic\bin\ScratchPad\x64-Debug\ScratchPad.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

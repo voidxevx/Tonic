@@ -1,13 +1,17 @@
 #include "Application.h"
+#include "Rendering/Renderer.h"
+#include "Rendering/RenderSystem.h"
 #include <iostream>
 
-#ifndef APOTHIC_SET_MAX_ENTITIES
+#ifndef APOTHIC_SET_MAX_REGISTRY
 	#define MAX_ENTITIES 1000
+	#define MAX_SYSTEMS 32
+	#define MAX_ARCHETYPES 64
 #endif
 
 namespace apothic
 {
-	xenon::registry* global_registry = new xenon::registry(MAX_ENTITIES);
+	xenon::registry* global_registry = new xenon::registry(MAX_ENTITIES, MAX_SYSTEMS, MAX_ARCHETYPES);
 	graphics::Renderer* global_renderer = graphics::Renderer::CreateRenderer();
 
 	Application::Application()
@@ -15,8 +19,10 @@ namespace apothic
 		m_Window = std::unique_ptr<Window>(Window::CreateWindow());
 		m_Window->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
-		global_registry->RegisterComponent<graphics::RenderObject>();
-		global_registry->RegisterComponent<graphics::TransformComponent>();
+		global_registry->RegisterComponent<RenderObject>();
+		global_registry->RegisterComponent<TransformComponent>();
+
+		global_registry->RegisterArchetype<RenderSystem, RenderObject, TransformComponent>();
 	}
 
 	Application::~Application()
@@ -60,7 +66,7 @@ namespace apothic
 		{
 			for (Layer* layer : m_LayerStack)
 				layer->OnUpdate();
-
+			global_registry->UpdateSystems();
 			m_Window->OnUpdate();
 		}
 	}

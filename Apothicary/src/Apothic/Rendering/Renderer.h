@@ -6,13 +6,12 @@
 #include "Material.h"
 #include "Camera.h"
 
-namespace apothic::graphics
+namespace apothic
 {
-
 	struct RenderObject
 	{
-		VertexCollection* VertexCollection;
-		MaterialInstance* Material;
+		graphics::VertexCollection* VertexCollection;
+		graphics::MaterialInstance* Material;
 
 		void Bind() const
 		{
@@ -31,7 +30,11 @@ namespace apothic::graphics
 	{
 		argon::vec4* transform;
 	};
+}
+	
 
+namespace apothic::graphics
+{
 	class Renderer
 	{
 	public:

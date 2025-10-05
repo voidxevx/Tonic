@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ComponentPool.h"
+#include "SystemInterface.h"
 
 #include<string>
 #include<unordered_map>
@@ -11,24 +12,31 @@ namespace xenon
 {
 	struct Entity_Container
 	{
-		std::bitset<32> components = {};
-		const char* script = "";
+		XenonArchetype components = {};
 		bool tickEnabled = false;
-
-		Entity_Container() = default;
-		Entity_Container(const char* path)
-			: script(path)
-		{}
-
 	};
 
 	class registry
 	{
 	public:
-		registry(size_t max)
+		registry(size_t max, size_t maxSystems, size_t maxArchetypes)
 			: m_MaxEntities(max)
-		{}
-		
+			, m_MaxSystems(maxSystems)
+			, m_MaxArchetypes(maxArchetypes)
+		{
+			m_Systems = (SystemInterface**)malloc(maxSystems * sizeof(SystemInterface*));
+			m_Archetypes = (XenonArchetype*)malloc(maxArchetypes * sizeof(XenonArchetype));
+		}
+
+		~registry()
+		{
+			free(m_Systems);
+			free(m_Archetypes);
+			m_Systems = nullptr;
+			m_Archetypes = nullptr;
+		}
+
+		/*Creates an entity and stores it within the ecs registry*/
 		XenonID CreateEntity()
 		{
 			XenonID loc = (XenonID)m_Top;
@@ -36,6 +44,7 @@ namespace xenon
 			return loc;
 		}
 		
+		/*Creates the necessary pools for a component and validates it for use by entities*/
 		template<typename _T>
 		void RegisterComponent()
 		{
@@ -43,20 +52,20 @@ namespace xenon
 			m_Pools[(XenonID)m_RegisteredComponents] = new ComponentPool<_T>((XenonID)m_MaxEntities);
 			++m_RegisteredComponents;
 		}
-
+		/*Add a component to an entity*/
 		template<typename _T>
 		void AddComponent(XenonID entity, _T* component)
 		{
 			dynamic_cast<ComponentPool<_T>*>(m_Pools[m_ComponentTypes[typeid(_T).name()]])->add(entity, component);
 			m_Entities[entity].components.set(m_ComponentTypes[typeid(_T).name()]);
 		}
-
+		/*Returns if an entity has the desired component*/
 		template<typename _T>
 		bool HasComponent(XenonID id)
 		{
 			return m_Entities[id].components.test(m_ComponentTypes[typeid(_T).name()]);
 		}
-
+		/*Gets a pointer to the desired component of an entity. Recommended to be used alongside HasComponent or check the return value as it will return nullptr if not found.*/
 		template<typename _T>
 		_T* GetComponent(XenonID id)
 		{
@@ -67,7 +76,7 @@ namespace xenon
 			else
 				return nullptr;
 		}
-
+		/*Removes a component from an entity*/
 		template<typename _T>
 		bool RemoveComponent(XenonID id)
 		{
@@ -80,15 +89,11 @@ namespace xenon
 			}
 			return false;
 		}
-
-		void RegisterDestroy(XenonID id)
-		{
-			m_RegisteredToDestroy.push_back(id);
-		}
-
+		/*Destroys an entity. Should be pushed to a que as it will mess up entity iteration */
 		void DestroyEntity(XenonID id)
 		{
-			std::bitset<32> comps = m_Entities[id].components; // destroy components
+			XenonArchetype comps = m_Entities[id].components; // destroy components
+
 			for (unsigned int i{}; i < m_RegisteredComponents; ++i)
 			{
 				if (comps.test(i))
@@ -105,34 +110,60 @@ namespace xenon
 			m_Entities[id] = m_Entities[endID];
 			--m_Top;
 		}
-
-		void PostTick()
-		{
-			for (const XenonID& entity : m_RegisteredToDestroy)
-			{
-				DestroyEntity(entity);
-			}
-			m_RegisteredToDestroy.clear();
-		}
-
+		/*Enables tick updates for systems related to this entities archetype.*/
 		void SetTickEnabled(XenonID id, bool val = true)
 		{
 			m_Entities[id].tickEnabled = val;
 		}
 
-		std::unordered_set<XenonID> GetAllEntitiesWithComponents(std::vector<std::string> componentIDs)
+
+
+
+		/*Register an archetype. Template takes in a System and the components it will update.*/
+		template<typename _System, typename... _Components>
+		void RegisterArchetype()
 		{
-			std::bitset<32> set = {};
-			for (const std::string& comp : componentIDs)
+			if (m_TotalSystems < m_MaxSystems && m_TotalArchetypes < m_MaxArchetypes)
 			{
-				set.set(m_ComponentTypes[comp]);
+				XenonArchetype archetype = ArchetypeKey<_Components...>();
+				m_Systems[m_TotalSystems] = new _System{ archetype };
+				m_Archetypes[m_TotalArchetypes] = archetype;
+				m_ArchetypeSystems[archetype] = (unsigned int)m_TotalSystems;
+				++m_TotalSystems;
+				++m_TotalArchetypes;
 			}
+		}
+		/*Register an alternate architype for the previously registered system.*/
+		template<typename... _Components>
+		void RegisterAlternate()
+		{
+			XenonArchetype arch = ArchetypeKey<_Components...>();
+			m_ArchetypeSystems[arch] = (unsigned int)m_TotalSystems - 1;
+			m_Archetypes[m_TotalArchetypes] = arch;
+			++m_TotalArchetypes;
+		}
+		/*Calls updates on all entities with tick enabled. A system matching an entities architype must exist for an update to be called.*/
+		void UpdateSystems()
+		{
+			for (XenonID ent = 0; ent < m_Top; ++ent)
+				if (m_Entities[ent].tickEnabled)
+					for (unsigned int arch{}; arch < m_TotalArchetypes; ++arch)
+						if ((m_Entities[ent].components & m_Archetypes[arch]) == m_Archetypes[arch])
+						m_Systems[m_ArchetypeSystems[m_Entities[ent].components]]->OnSystemUpdate(this, ent);
+		}
 
-			std::unordered_set<XenonID> entities;
-			for (XenonID c_ent{}; c_ent < m_Top; ++c_ent) if (m_Entities[c_ent].components == set)
-				entities.emplace(c_ent);
-
-			return entities;
+	private:
+		/*Generates an architype key from a list of components*/
+		template <typename _Current, typename... _Others>
+		XenonArchetype ArchetypeKey(XenonArchetype base = {})
+		{
+			XenonArchetype set = base;
+			if (typeid(_Current) != typeid(std::nullptr_t))
+			{
+				set.set(m_ComponentTypes[typeid(_Current).name()]);
+				return ArchetypeKey<_Others..., std::nullptr_t>(set);
+			}
+			return base;
 		}
 
 	private:
@@ -145,6 +176,13 @@ namespace xenon
 		size_t m_RegisteredComponents = 0; // the total amount of registered components
 
 		std::unordered_map<XenonID, Entity_Container> m_Entities; // maps each entity id to the components it has and its scripts
-		std::vector<XenonID> m_RegisteredToDestroy; // the entities marked for distruction at the end of the tick
+
+		SystemInterface** m_Systems; // Pointers to all registered systems.
+		std::unordered_map<XenonArchetype, unsigned int> m_ArchetypeSystems; // maps architype keys to systems.
+		XenonArchetype* m_Archetypes; // all of the archetypes
+		size_t m_TotalArchetypes = 0; // the total amount of archetypes
+		size_t m_MaxArchetypes; // the maximum amount of archetypes
+		size_t m_TotalSystems = 0; // the total amount of systems registered
+		size_t m_MaxSystems; // the maximum amount of systems that can be registered.
 	};
 }

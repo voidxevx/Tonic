@@ -33,27 +33,16 @@ public:
 		tempcam = new apothic::graphics::OrthographicCamera(1280, 720);
 		apothic::global_renderer->AttachCamera(tempcam);
 
-		// creating entity & component
-		tempent = apothic::global_registry->CreateEntity();
-		apothic::global_registry->AddComponent<apothic::graphics::RenderObject>(tempent, new apothic::graphics::RenderObject{tempvc, tempmati});
-		apothic::global_registry->AddComponent<apothic::graphics::TransformComponent>(tempent, new apothic::graphics::TransformComponent{ new argon::vec4(100, 100, 0, 0) });
+		// creating entities & components
+		XenonID ent = apothic::global_registry->CreateEntity();
+		apothic::global_registry->SetTickEnabled(ent);
+		apothic::global_registry->AddComponent(ent, new apothic::RenderObject{tempvc, tempmati});
+		apothic::global_registry->AddComponent(ent, new apothic::TransformComponent{ new argon::vec4(100, 100, 0, 0) });
 
-		tempent2 = apothic::global_registry->CreateEntity();
-		apothic::global_registry->AddComponent<apothic::graphics::RenderObject>(tempent2, new apothic::graphics::RenderObject{ tempvc, tempmati });
-		apothic::global_registry->AddComponent<apothic::graphics::TransformComponent>(tempent2, new apothic::graphics::TransformComponent{ new argon::vec4(250, 100, 0, 0) });
-
-
-
-
-
-		/* matrix test - */
-		argon::mat3 location = argon::translation_mat3(argon::vec2(12, 30));
-		argon::mat3 rotation = argon::rotation2D_mat3(15);
-
-		argon::mat3 transform = location * rotation;
-		std::cout << "Location: " << location << std::endl;
-		std::cout << "Rotation: " << rotation << std::endl;
-		std::cout << "\nTransform" << transform << std::endl;
+		ent = apothic::global_registry->CreateEntity();
+		apothic::global_registry->SetTickEnabled(ent);
+		apothic::global_registry->AddComponent(ent, new apothic::RenderObject{ tempvc, tempmati });
+		apothic::global_registry->AddComponent(ent, new apothic::TransformComponent{ new argon::vec4(250, 100, 0, 0) });
 
 	}
 
@@ -64,12 +53,6 @@ public:
 		free(tempmati);
 	}
 
-	virtual void OnUpdate() override
-	{
-		apothic::global_renderer->Submit(tempent);
-		apothic::global_renderer->Submit(tempent2);
-	}
-
 	virtual void OnEvent(apothic::Event& event)
 	{
 		apothic::EventDispatcher disp(event);
@@ -77,8 +60,6 @@ public:
 	}
 
 private:
-	XenonID tempent = 0;
-	XenonID tempent2 = 0;
 	apothic::graphics::VertexCollection* tempvc;
 	apothic::graphics::Shader* tempsh;
 	std::shared_ptr<apothic::graphics::Material> tempmat;
@@ -91,6 +72,9 @@ private:
 		return true;
 	}
 };
+
+
+
 
 class TonicApp : public apothic::Application
 {
